@@ -1,0 +1,27 @@
+name: 'Backslash scan'
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+    - 3.4
+
+env:
+  API_KEY: ${{ secrets.BACKSLASH_TOKEN }}
+
+jobs:
+  backslash-scan:
+    name: Scaning
+    runs-on: ubuntu-latest
+    services:
+      docker:
+        image: docker:20.10.7
+        options: --privileged # This enables Docker in Docker
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Backslash scan
+        run: |
+          docker run --rm -v $(pwd):/app:rw -e authToken=${{ env.API_KEY }} -e repositoryName="dubbo" -e sourceBranch="backslash_pov" -e DEBUG="true" -e repositoryUrl="https://github.com/yuliang29/dubbo" -e scanners="CODE_VULNERABILITIES,SCA" -t public.ecr.aws/z5i4c8v0/local-scanner:latest
