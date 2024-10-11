@@ -24,4 +24,4 @@ jobs:
         uses: docker/setup-buildx-action@v1
       - name: Backslash scan
         run: |
-          docker run --rm -v $(pwd):/app:rw -e authToken=${{ env.API_KEY }} -e repositoryName="dubbo" -e sourceBranch="backslash_pov" -e targetBranch="3.4" -e prScan="true" -e repositoryUrl="https://github.com/yuliang29/dubbo" -e scanners="CODE_VULNERABILITIES,SCA" -t public.ecr.aws/z5i4c8v0/local-scanner:latest
+          docker run --rm -v $(pwd):/app:rw -e authToken=${{ env.API_KEY }} -e repositoryName="dubbo" -e sourceBranch="backslash_pov" -e targetBranch="3.4" -e prScan="true" -e isDebug="true" -e repositoryUrl="https://github.com/yuliang29/dubbo" -t public.ecr.aws/z5i4c8v0/local-scanner:latest
